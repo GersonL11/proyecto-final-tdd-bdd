@@ -39,21 +39,56 @@ Scenario: Create a Product
     And I should see "Tools" in the "Category" dropdown
     And I should see "34.95" in the "Price" field
 
-
 Scenario: Update a Product
-    Given I type in a Name that exists in the Background data and press the Search button
+    When I visit the "Home Page"
+    And I set the "Name" to "Hat"
+    And I press the "Search" button
     Then I should see the message "Success"
-    And I verify that a field has the expected value
-    When I change one of the fields and press the Update button
+    And I should see "59.95" in the "Price" field
+    When I set the "Price" to "64.99"
+    And I press the "Update" button
     Then I should see the message "Success"
     When I copy the "Id" field
-    And I clear the form
+    And I press the "Clear" button
     And I paste the "Id" field
     And I press the "Retrieve" button
     Then I should see the message "Success"
-    And I verify that the field I updated has the new value
+    And I should see "64.99" in the "Price" field
+
+Scenario: Delete a Product
+    When I visit the "Home Page"
+    And I set the "Name" to "Shoes"
+    And I press the "Search" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
+    And I press the "Delete" button
+    Then I should see the message "Product has been Deleted!"
     When I press the "Clear" button
     And I press the "Search" button
-    Then I should see that the changed field is in the results
+    Then I should not see "Shoes" in the results
 
-    
+Scenario: List All Products
+    When I press the "Clear" button
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Hat" in the results
+    And I should see "Big Mac" in the results
+    And I should see "Sheets" in the results
+
+Scenario: Filter by Category (Food)
+    When I press the "Clear" button
+    And I select "Food" in the "Category" dropdown
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Big Mac" in the results
+
+Scenario: Filter by Availability (True)
+    When I press the "Clear" button
+    And I select "True" in the "Available" dropdown
+    And I press the "Search" button
+    Then I should see the message "Success"
+    And I should see "Hat" in the results
+    And I should see "Big Mac" in the results
+    And I should see "Sheets" in the results
