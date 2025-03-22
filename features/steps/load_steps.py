@@ -58,9 +58,28 @@ def step_impl(context):
     # load the database with new products
     #
     for row in context.table:
-        #
-        # ADD YOUR CODE HERE TO CREATE PRODUCTS VIA THE REST API
-        #
+     @given('the following products')
+def step_impl(context):
+    """ Delete all Products and load new ones """
+    # Eliminar todos los productos existentes
+    rest_endpoint = f"{context.base_url}/products"
+    context.resp = requests.get(rest_endpoint)
+    assert(context.resp.status_code == HTTP_200_OK)
+    for product in context.resp.json():
+        context.resp = requests.delete(f"{rest_endpoint}/{product['id']}")
+        assert(context.resp.status_code == HTTP_204_NO_CONTENT)
+
+    # Cargar la base de datos con los nuevos productos
+    for row in context.table:
+        product_data = {
+            "name": row['name'],
+            "category": row['category'],
+            "price": float(row['price']),
+            "quantity": int(row['quantity'])
+        }
+        context.resp = requests.post(rest_endpoint, json=product_data)
+        assert(context.resp.status_code == HTTP_201_CREATED)
+
 =======
     for row in context.table:
 >>>>>>> 59ad4ca (Initial commit)
