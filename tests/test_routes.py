@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ######################################################################
 # Copyright 2016, 2023 John J. Rofrano. All Rights Reserved.
 #
@@ -24,6 +25,8 @@ Test cases can be run with the following:
   While debugging just these tests it's convenient to use this:
     nosetests --stop tests/test_service.py:TestProductService
 """
+=======
+>>>>>>> 59ad4ca (Initial commit)
 import os
 import logging
 from decimal import Decimal
@@ -33,21 +36,28 @@ from service.common import status
 from service.models import db, init_db, Product
 from tests.factories import ProductFactory
 
+<<<<<<< HEAD
 # Disable all but critical errors during normal test run
 # uncomment for debugging failing tests
 # logging.disable(logging.CRITICAL)
 
 # DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///../db/test.db')
+=======
+
+>>>>>>> 59ad4ca (Initial commit)
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgresql://postgres:postgres@localhost:5432/postgres"
 )
 BASE_URL = "/products"
 
 
+<<<<<<< HEAD
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
 # pylint: disable=too-many-public-methods
+=======
+>>>>>>> 59ad4ca (Initial commit)
 class TestProductRoutes(TestCase):
     """Product Service tests"""
 
@@ -69,15 +79,23 @@ class TestProductRoutes(TestCase):
     def setUp(self):
         """Runs before each test"""
         self.client = app.test_client()
+<<<<<<< HEAD
         db.session.query(Product).delete()  # clean up the last tests
+=======
+        db.session.query(Product).delete() 
+>>>>>>> 59ad4ca (Initial commit)
         db.session.commit()
 
     def tearDown(self):
         db.session.remove()
 
+<<<<<<< HEAD
     ############################################################
     # Utility function to bulk create products
     ############################################################
+=======
+   
+>>>>>>> 59ad4ca (Initial commit)
     def _create_products(self, count: int = 1) -> list:
         """Factory method to create products in bulk"""
         products = []
@@ -92,9 +110,12 @@ class TestProductRoutes(TestCase):
             products.append(test_product)
         return products
 
+<<<<<<< HEAD
     ############################################################
     #  T E S T   C A S E S
     ############################################################
+=======
+>>>>>>> 59ad4ca (Initial commit)
     def test_index(self):
         """It should return the index page"""
         response = self.client.get("/")
@@ -108,9 +129,13 @@ class TestProductRoutes(TestCase):
         data = response.get_json()
         self.assertEqual(data['message'], 'OK')
 
+<<<<<<< HEAD
     # ----------------------------------------------------------
     # TEST CREATE
     # ----------------------------------------------------------
+=======
+
+>>>>>>> 59ad4ca (Initial commit)
     def test_create_product(self):
         """It should Create a new Product"""
         test_product = ProductFactory()
@@ -118,11 +143,17 @@ class TestProductRoutes(TestCase):
         response = self.client.post(BASE_URL, json=test_product.serialize())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+<<<<<<< HEAD
         # Make sure location header is set
         location = response.headers.get("Location", None)
         self.assertIsNotNone(location)
 
         # Check the data is correct
+=======
+        location = response.headers.get("Location", None)
+        self.assertIsNotNone(location)
+
+>>>>>>> 59ad4ca (Initial commit)
         new_product = response.get_json()
         self.assertEqual(new_product["name"], test_product.name)
         self.assertEqual(new_product["description"], test_product.description)
@@ -130,6 +161,7 @@ class TestProductRoutes(TestCase):
         self.assertEqual(new_product["available"], test_product.available)
         self.assertEqual(new_product["category"], test_product.category.name)
 
+<<<<<<< HEAD
         #
         # Uncomment this code once READ is implemented
         #
@@ -144,6 +176,8 @@ class TestProductRoutes(TestCase):
         # self.assertEqual(new_product["available"], test_product.available)
         # self.assertEqual(new_product["category"], test_product.category.name)
 
+=======
+>>>>>>> 59ad4ca (Initial commit)
     def test_create_product_with_no_name(self):
         """It should not Create a Product without a name"""
         product = self._create_products()[0]
@@ -163,6 +197,7 @@ class TestProductRoutes(TestCase):
         response = self.client.post(BASE_URL, data={}, content_type="plain/text")
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
+<<<<<<< HEAD
     #
     # ADD YOUR TEST CASES HERE
     #
@@ -171,10 +206,16 @@ class TestProductRoutes(TestCase):
     # Utility functions
     ######################################################################
 
+=======
+>>>>>>> 59ad4ca (Initial commit)
     def get_product_count(self):
         """save the current number of products"""
         response = self.client.get(BASE_URL)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
         # logging.debug("data = %s", data)
+<<<<<<< HEAD
         return len(data)
+=======
+        return len(data)
+>>>>>>> 59ad4ca (Initial commit)
